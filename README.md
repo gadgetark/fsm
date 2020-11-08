@@ -7,7 +7,8 @@
 
 # To setup the project for development
 1. git clone the this fsm repo.
-2. cd into fsm. 
+2. cd into fsm project repo root directory.
+    * cd fsm
 3. Make sure the python3 is installed
 4. Install virtualenv:
     * pip install virtualenv
@@ -23,5 +24,10 @@
 
 
 # To run the project
-1. cd into the fsm project directory
-2. python main.py
+1. cd into fsm project repo root directory.
+    * cd fsm
+2. start the venv of this project
+    * source venv/bin/activate 
+3. Run the main.py
+    * python main.py
+
