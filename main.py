@@ -6,8 +6,6 @@ from flask import request
 from fsm import FiniteStateMachine
 from fsm import State
 
-companies = [{"id": 1, "name": "Company One"}, {"id": 2, "name": "Company Two"}]
-
 app = flask.Flask(__name__)
 app.config["DEBUG"] = True
 
