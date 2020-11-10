@@ -62,7 +62,8 @@ class IFiniteStateMachine:
         return self.current_state
 
     def list_valid_actions(self):
-        return list(self.current_state.get_all_transitions())
+        # get current_state's transitions. The transitions are keyed by action_names
+        return list(self.current_state.get_all_transitions().keys())
 
 
 class FiniteStateMachine(IFiniteStateMachine):
