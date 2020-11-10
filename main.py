@@ -32,7 +32,7 @@ fsm = FiniteStateMachine(State('uninitialized'))
 
 
 @app.route('/fsm', methods=['GET'])
-@app.route('/fsm/current-stateh', methods=['GET'])
+@app.route('/fsm/current-state', methods=['GET'])
 def get_current_state():
     print("GET current_state:" + fsm.get_current_state().current_state_name)
 
@@ -50,6 +50,17 @@ def get_valid_actions():
 
 
 @app.route('/fsm', methods=['POST'])
+def post_fsm():
+    args = request.args
+
+    if "action_name" in args:
+        action_name = args["action_name"]
+        fsm.perform_action(action_name)
+        return json.dumps({" new currentState": fsm.get_current_state().current_state_name})
+
+    return initialize_fsm()
+
+
 def initialize_fsm():
     req_data = request.get_json()
     print("start:" + req_data['start'])
@@ -63,10 +74,14 @@ def initialize_fsm():
     fsm = FiniteStateMachine(State(req_data['start']))
 
     for transition in req_data['transitions']:
+        print("\n")
         print("One transition's currentState:" + transition['currentState'])
+        print("One transition's currentState:" + transition['nextState'])
+        print("One transition's currentState:" + transition['actionName'])
         fsm.add_transition(transition['currentState'],
                            transition['nextState'],
                            transition['actionName'])
+
     return json.dumps(req_data), 201
 
 

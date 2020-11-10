@@ -8,10 +8,10 @@ class Transition:
 
 
 class State:
-    transitions = {}
 
     def __init__(self, current_state_name):
         self.current_state_name = current_state_name
+        self.transitions = {}
 
     def add_transition(self, transition):
         self.transitions[transition.action_name] = transition
@@ -30,11 +30,11 @@ class State:
 
 
 class IFiniteStateMachine:
-    state_objects = {}
 
     def __init__(self, start_state):
         # when initializing it is safe to assume the current_state is the start_state
         self.current_state = start_state
+        self.state_objects = {start_state.current_state_name: start_state}
 
     def add_transition(self, current_state_name, next_state_name, action_name):
         # self.current_state_name = current_state_name
@@ -56,7 +56,7 @@ class IFiniteStateMachine:
             self.current_state = self.state_objects[next_state_name]
         else:
             print("The provided action_name is invalid")
-            print("The valid actions are:" + self.list_valid_actions())
+            print("The valid actions are:",  self.list_valid_actions())
 
     def get_current_state(self):
         return self.current_state
