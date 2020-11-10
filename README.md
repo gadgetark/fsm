@@ -38,7 +38,7 @@
     * curl --request GET 'http://127.0.0.1:5000/fsm/valid-actions'
 3. GET current-state:
     * curl --request GET 'http://127.0.0.1:5000/fsm/current-state'
-4. POST fsm to initialize. The default json provided by the documentation "Kinsa Backend Engineer Coding Exercise":
+4. POST the default fsm to initialize. The default json is provided by the documentation "Kinsa Backend Engineer Coding Exercise":
     * `curl --request POST 'http://127.0.0.1:5000/fsm' \
 --header 'Content-Type: application/json' \
 --data-raw '{
@@ -68,6 +68,75 @@
     * `curl  --request POST 'http://127.0.0.1:5000/fsm?action_name=action_2'` 
 7. POST action_name with query param value of "action_3" to the fsm:
     * `curl  --request POST 'http://127.0.0.1:5000/fsm?action_name=action_3'` 
+8. New POST json with only one state_c transition added to the default fsm, where action_3 would be valid when current_state is state_b
+    * `url --location --request POST 'http://127.0.0.1:5000/fsm' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+  "start": "state_a",
+  "transitions": [
+    {
+      "currentState": "state_a",
+      "nextState": "state_b",
+      "actionName": "action_1"
+    },
+    {
+      "currentState": "state_a",
+      "nextState": "state_c",
+      "actionName": "action_2"
+    },
+    {
+      "currentState": "state_b",
+      "nextState": "state_c",
+      "actionName": "action_3"
+    },
+    {
+      "currentState": "state_c",
+      "nextState": "state_a",
+      "actionName": "action_4"
+    }
+  ]
+}'`
+9. New POST json with all the needed state transitions added to the default fsm to complete bi-directional state transition. state_a => state_b, state_a => state_c,state_b => state_c, state_b => state_c, state_c => state_a, state_c => state_b
+    * `curl --location --request POST 'http://127.0.0.1:5000/fsm' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+  "start": "state_a",
+  "transitions": [
+    {
+      "currentState": "state_a",
+      "nextState": "state_b",
+      "actionName": "action_1"
+    },
+    {
+      "currentState": "state_a",
+      "nextState": "state_c",
+      "actionName": "action_2"
+    },
+    {
+      "currentState": "state_b",
+      "nextState": "state_c",
+      "actionName": "action_3"
+    },
+    {
+      "currentState": "state_b",
+      "nextState": "state_a",
+      "actionName": "action_5"
+    },
+    {
+      "currentState": "state_c",
+      "nextState": "state_a",
+      "actionName": "action_4"
+    },
+    {
+      "currentState": "state_c",
+      "nextState": "state_b",
+      "actionName": "action_6"
+    }
+  ]
+}
+'`
+
+
     
     
 
