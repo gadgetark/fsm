@@ -33,7 +33,7 @@ def post_fsm():
         if result_msg is None:
             return json.dumps({" new currentState": fsm.get_current_state().current_state_name})
         else:
-            return json.dumps({"error_message": result_msg})
+            return json.dumps({"error_message": result_msg}), 405
 
     return initialize_fsm()
 
