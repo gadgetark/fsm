@@ -50,13 +50,26 @@ class IFiniteStateMachine:
             return State(current_state_name)
 
     def perform_action(self, action_name):
-        if self.current_state.is_action_name_valid(action_name):
-            # if the action_name is valid then transition the current_state to new state
-            next_state_name = self.current_state.get_transition(action_name).next_state_name
-            self.current_state = self.state_objects[next_state_name]
-        else:
-            print("The provided action_name is invalid")
-            print("The valid actions are:",  self.list_valid_actions())
+        try:
+            if self.current_state.is_action_name_valid(action_name):
+                # if the action_name is valid then transition the current_state to new state
+                next_state_name = self.current_state.get_transition(action_name).next_state_name
+                self.current_state = self.try_get_next_state_obj(next_state_name)
+                # return None to indicate no error msg
+                return None
+            else:
+                print("The provided action_name is invalid for the current state.")
+                raise ValueError("The provided action_name is invalid for the current state")
+                # print("The valid actions are:", self.list_valid_actions())
+        except ValueError as exp:
+            return "Invalid action_name, detail exception msg:" + str(exp)
+
+    def try_get_next_state_obj(self, next_state_name):
+        try:
+            return self.state_objects[next_state_name]
+        except:
+            print("next_state_obj not found!!!")
+            raise ValueError("next_state_obj not found!!!")
 
     def get_current_state(self):
         return self.current_state

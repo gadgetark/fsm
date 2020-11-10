@@ -31,8 +31,11 @@ def post_fsm():
 
     if "action_name" in args:
         action_name = args["action_name"]
-        fsm.perform_action(action_name)
-        return json.dumps({" new currentState": fsm.get_current_state().current_state_name})
+        result_msg = fsm.perform_action(action_name)
+        if result_msg is None:
+            return json.dumps({" new currentState": fsm.get_current_state().current_state_name})
+        else:
+            return json.dumps({"error_message": result_msg})
 
     return initialize_fsm()
 
