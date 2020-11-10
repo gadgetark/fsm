@@ -69,7 +69,7 @@
 7. POST action_name with query param value of "action_3" to the fsm:
     * `curl  --request POST 'http://127.0.0.1:5000/fsm?action_name=action_3'` 
 8. New POST json with only one state_c transition added to the default fsm, where action_3 would be valid when current_state is state_b
-    * `url --location --request POST 'http://127.0.0.1:5000/fsm' \
+    * `curl --location --request POST 'http://127.0.0.1:5000/fsm' \
 --header 'Content-Type: application/json' \
 --data-raw '{
   "start": "state_a",
