@@ -28,10 +28,25 @@ companies = [{"id": 1, "name": "Company One"}, {"id": 2, "name": "Company Two"}]
 app = flask.Flask(__name__)
 app.config["DEBUG"] = True
 
+fsm = FiniteStateMachine(State('uninitialized'))
 
-@app.route('/', methods=['GET'])
-def home():
-    return "<h1>Distant Reading Archive</h1><p>This site is a prototype API for distant reading of science fiction novels.</p>"
+
+@app.route('/fsm', methods=['GET'])
+@app.route('/fsm/current-stateh', methods=['GET'])
+def get_current_state():
+    print("GET current_state:" + fsm.get_current_state().current_state_name)
+
+    args = request.args
+
+    # if "valid" in args:
+    #     foo = args["foo"]
+
+    return json.dumps({"currentState": fsm.get_current_state().current_state_name})
+
+
+@app.route('/fsm/valid-actions', methods=['GET'])
+def get_valid_actions():
+    return json.dumps({"validActions": fsm.list_valid_actions()})
 
 
 @app.route('/fsm', methods=['POST'])
@@ -44,6 +59,7 @@ def initialize_fsm():
 
     print("PRINTING:")
     # print(req_data['transitions'][0]['currentState'])
+    global fsm
     fsm = FiniteStateMachine(State(req_data['start']))
 
     for transition in req_data['transitions']:
