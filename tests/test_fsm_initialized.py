@@ -45,6 +45,19 @@ def test_default_fsm_initialized():
     test_fsm_current_state("state_b")
     test_fsm_valid_actions(["action_3"])
 
+    test_fsm_current_state("state_b")
+    test_invalid_action_guard("action_1", 405)
+
+    test_fsm_current_state("state_b")
+    test_invalid_action_guard("action_2", 405)
+
+    test_fsm_current_state("state_b")
+    test_invalid_action_guard("action_4", 405)
+
+    # test unknown action that is not part of the fsm transitions initialized above
+    test_fsm_current_state("state_b")
+    test_invalid_action_guard("action_99999999999", 405)
+
 
 def test_full_fsm_initialized():
     url = 'http://127.0.0.1:5000/fsm'
@@ -97,14 +110,30 @@ def test_full_fsm_initialized():
     test_fsm_valid_actions(["action_1", "action_2"])
 
     test_fsm_current_state("state_a")
+    test_invalid_action_guard("action_3", 405)
+    test_fsm_current_state("state_a")
     test_post_action_name("action_1")
     test_fsm_current_state("state_b")
     test_fsm_valid_actions(["action_3", "action_5"])
 
     test_fsm_current_state("state_b")
+    test_invalid_action_guard("action_4", 405)
+    test_fsm_current_state("state_b")
     test_post_action_name("action_3")
     test_fsm_current_state("state_c")
     test_fsm_valid_actions(["action_4", "action_6"])
+
+    test_fsm_current_state("state_c")
+    test_invalid_action_guard("action_5", 405)
+
+def test_invalid_action_guard(action_name, expected_http_status_code):
+    url = 'http://127.0.0.1:5000/fsm'
+    headers = {'Content-Type': 'application/json'}
+    params = {'action_name': action_name}
+
+    resp = requests.post(url, headers=headers, params=params)
+
+    assert resp.status_code == expected_http_status_code
 
 
 def test_fsm_current_state(expected_current_state):
