@@ -96,7 +96,7 @@
     }
   ]
 }'`
-9. New POST json with all the needed state transitions added to the default fsm to complete bi-directional state transition. state_a => state_b, state_a => state_c,state_b => state_c, state_b => state_c, state_c => state_a, state_c => state_b
+9. New POST json with all the needed state transitions added to the default fsm to complete bi-directional state transition. state_a => state_b, state_a => state_c,state_b => state_c, state_b => state_a, state_c => state_a, state_c => state_b
     * `curl --location --request POST 'http://127.0.0.1:5000/fsm' \
 --header 'Content-Type: application/json' \
 --data-raw '{
