@@ -1,20 +1,3 @@
-# This is a sample Python script.
-
-# Press ⌃R to execute it or replace it with your code.
-# Press Double ⇧ to search everywhere for classes, files, tool windows, actions, and settings.
-
-
-# def print_hi(name):
-#     # Use a breakpoint in the code line below to debug your script.
-#     print(f'Hi, {name}')  # Press ⌘F8 to toggle the breakpoint.
-#
-#
-# # Press the green button in the gutter to run the script.
-# if __name__ == '__main__':
-#     print_hi('PyCharm again')
-
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
-
 import json
 
 import flask
@@ -34,13 +17,6 @@ fsm = FiniteStateMachine(State('uninitialized'))
 @app.route('/fsm', methods=['GET'])
 @app.route('/fsm/current-state', methods=['GET'])
 def get_current_state():
-    print("GET current_state:" + fsm.get_current_state().current_state_name)
-
-    args = request.args
-
-    # if "valid" in args:
-    #     foo = args["foo"]
-
     return json.dumps({"currentState": fsm.get_current_state().current_state_name})
 
 
@@ -63,26 +39,24 @@ def post_fsm():
 
 def initialize_fsm():
     req_data = request.get_json()
-    print("start:" + req_data['start'])
-    print("transitions:" + json.dumps(req_data['transitions']))
 
-    # return json.dumps({"success": True}), 201
-
-    print("PRINTING:")
-    # print(req_data['transitions'][0]['currentState'])
     global fsm
     fsm = FiniteStateMachine(State(req_data['start']))
 
     for transition in req_data['transitions']:
-        print("\n")
-        print("One transition's currentState:" + transition['currentState'])
-        print("One transition's currentState:" + transition['nextState'])
-        print("One transition's currentState:" + transition['actionName'])
+        print_transition_data(transition)
         fsm.add_transition(transition['currentState'],
                            transition['nextState'],
                            transition['actionName'])
 
     return json.dumps(req_data), 201
+
+
+def print_transition_data(transition):
+    print("\n")
+    print("One transition's currentState:" + transition['currentState'])
+    print("One transition's currentState:" + transition['nextState'])
+    print("One transition's currentState:" + transition['actionName'])
 
 
 if __name__ == '__main__':
