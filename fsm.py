@@ -17,7 +17,7 @@ class State:
         self.transitions[transition.action_name] = transition
 
     def is_action_name_valid(self, action_name):
-        if self.transitions.has_key(action_name):
+        if action_name in self.transitions.keys():
             return True
         else:
             return False
@@ -53,3 +53,7 @@ class IFiniteStateMachine:
 
     def list_valid_actions(self):
         return list(self.current_state.get_all_transitions())
+
+
+class FiniteStateMachine(IFiniteStateMachine):
+    pass
