@@ -38,7 +38,7 @@
     * curl --request GET 'http://127.0.0.1:5000/fsm/valid-actions'
 3. GET current-state:
     * curl --request GET 'http://127.0.0.1:5000/fsm/current-state'
-4. POST the default fsm to initialize. The default json is provided by the documentation "Kinsa Backend Engineer Coding Exercise":
+4. POST the default fsm to initialize. The default json is provided by the documentation:
     * `curl --request POST 'http://127.0.0.1:5000/fsm' \
 --header 'Content-Type: application/json' \
 --data-raw '{
