@@ -47,6 +47,9 @@ class IFiniteStateMachine:
             # if the action_name is valid then transition the current_state to new state
             next_state_name = self.current_state.get_transition(action_name).next_state_name
             self.current_state = self.state_objects[next_state_name]
+        else:
+            print("The provided action_name is invalid")
+            print("The valid actions are:" + self.list_valid_actions())
 
     def get_current_state(self):
         return self.current_state
